@@ -1,0 +1,30 @@
+.holding {
+	border-top: 3px RoyalBlue solid;
+	margin: 0 auto;
+	height: 80px;
+	width: 92%;
+	background-color: #e1e1e1;
+	font-size: 1.2em;
+	margin-bottom: 20px;
+}
+
+.delete-btn {
+	float: right;
+	height: 80px;
+	width: 5%;
+	background: FireBrick;
+	line-height: 80px;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+}
+
+.left {
+	margin: 10px;
+	float: left;
+}
+
+.right {
+	margin: 10px;
+	float: right;
+}

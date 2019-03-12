@@ -1,0 +1,31 @@
+.client-table {
+	text-align: center;
+	width: 100%;
+}
+
+.client {
+	border-top: 4px RoyalBlue solid;
+	display: inline-block;
+	height: 280px;
+	width: 20%;
+	background-color: #e1e1e1;
+	text-align: center;
+	margin: 10px;
+	margin-bottom: 60px;
+}
+
+.client-photo {
+	height: 160px;
+	margin-bottom: -140px;
+}
+
+.client-text {
+	height: 140px;
+	background-color: lightgray;
+	text-align: left;
+	padding: 10px;
+	padding-left: 25px;
+	margin-top: 140px;
+	margin-bottom: -300px;
+	font-size: 0.85em;
+}

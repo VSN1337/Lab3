@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/holdings.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+    <title>Владения акциями</title>
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="/static/img/lcn.jpg" alt="LCN">
+    </header>
+
+    <nav>
+        <a href="/market/stock/all"><div class="nav-button">Акции</div></a>
+        <a href="/market/clients/all"><div class="nav-button">Клиенты</div></a>
+        <a href="/market/holdings/all"><div class="nav-button">Владения акциями</div></a>
+        <a href="help/help.html"><div class="nav-button">Помощь</div></a>
+    </nav>
+
+    <div class="main">
+
+        <div class="title">Владения акциями:</div>
+
+        {{#holdings}}
+        <div class="holding">
+            <div class="left">
+                Владелец: {{clientName}}
+                <br>
+                Компания: {{companyName}}
+            </div>
+
+            <div class="delete-btn" onclick="deleteHolding( {{id}} )"><b>X</b></div>
+
+            <div class="right">
+                <div class="purchase-date">Дата преобретения: {{purchaseDate}}</div>
+                <br>
+                <div style="margin-top: -25px;">Обьем акций: {{percent}}%</div>
+            </div>
+        </div>
+        {{/holdings}}
+
+    </div>
+
+    <script>
+        const dates = document.getElementsByClassName('purchase-date')
+        for (index = 0; index < dates.length; index++)
+            dates[index].innerHTML = dates[index].innerHTML.substring(0, 29)
+
+        const deleteHolding = id => fetch('http://localhost:8080/market/holdings', {
+            method: 'DELETE',
+            body: id
+        }).then(res => {
+            if (res.status === 200)
+                 alert('Удалено!');
+            else alert('Ошибка! Что-то пошлло не так...')
+        })
+    </script>
+
+</body>
+
+</html>

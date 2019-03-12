@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/stock.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+    <title>Акции</title>
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="/static/img/lcn.jpg"  alt="LCN">
+    </header>
+
+    <nav>
+        <a href="/market/stock/all"><div class="nav-button">Акции</div></a>
+        <a href="/market/clients/all"><div class="nav-button">Клиенты</div></a>
+        <a href="/market/holdings/all"><div class="nav-button">Владения акциями</div></a>
+        <a href="help/help.html"><div class="nav-button">Помощь</div></a>
+    </nav>
+
+    <div class="main">
+
+        <div class="title">Акции:</div>
+
+        <table>
+            <tr>
+                <th>Компания</th><th>Цена</th><th>Рейтинг</th><th>Уровень риска</th><th>Фото</th>
+            </tr>
+
+            {{#stocks}}
+            <tr>
+                <td>{{companyName}}</td>
+                <td class="price">
+                    <div style="display: inline; float: left; margin-left: 35%;">{{currentPrice}}</div>
+                    <div style="display: inline">{{isGrowing}}</div>
+                </td>
+                <td>{{rating}}</td>
+                <td>{{riskLevel}}</td>
+                <td><img class="company_img" src="{{photoUrl}}">
+            </tr>
+            {{/stocks}}
+
+        </table>
+
+    </div>
+
+    <script>
+        const priceElements = document.getElementsByClassName('price');
+
+        for (let index = 0; index < priceElements.length; index++) {
+            let current = priceElements[index];
+            let isGrowing = current.childNodes[3].innerHTML;
+
+            console.log(isGrowing);
+            current.removeChild(current.childNodes[3]);
+
+            let img = document.createElement('img');
+            img.src = (isGrowing === 'true')
+                ? '/static/img/up.png'
+                : '/static/img/down.png';
+
+            img.style.display = 'inline';
+            img.style.height = '20px';
+            img.style.cssFloat = 'right';
+            img.style.marginRight = '16px';
+
+            current.appendChild(img)
+        }
+
+    </script>
+
+</body>
+
+</html>

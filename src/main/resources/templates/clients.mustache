@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/clients.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+    <title>Клиенты</title>
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="/static/img/lcn.jpg" alt="LCN">
+    </header>
+
+    <nav>
+        <a href="/market/stock/all"><div class="nav-button">Акции</div></a>
+        <a href="/market/clients/all"><div class="nav-button">Клиенты</div></a>
+        <a href="/market/holdings/all"><div class="nav-button">Владения акциями</div></a>
+        <a href="help/help.html"><div class="nav-button">Помощь</div></a>
+    </nav>
+
+    <div class="main">
+
+        <div class="title">Клиенты:</div>
+
+        <div class="client-table">
+
+            {{#clients}}
+            <div class="client">
+
+
+                <img class="client-photo" src="{{photoUrl}}">
+                <div class="client-text">
+                <div>Имя: {{fullName}}</div>
+                <!--<br>-->
+                <div>Адрес: {{address}}</div>
+                <!--<br>-->
+                <div>Город: {{city}}</div>
+                <!--<br>-->
+                <div>Телефон: {{phoneNumber}}</div>
+                <!--<br>-->
+                <div class="birthdate">Дата рождения: {{birthDate}}</div>
+                <!--<br>-->
+                <div>Уровень риска: {{riskLevel}}</div>
+                </div>
+            </div>
+            {{/clients}}
+
+        </div>
+
+    </div>
+
+    <script>
+        const dates = document.getElementsByClassName('birthdate');
+        for (index = 0; index < dates.length; index++)
+            dates[index].innerHTML = dates[index].innerHTML.substring(0, 26)
+    </script>
+
+</body>
+
+</html>

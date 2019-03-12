@@ -1,0 +1,26 @@
+table {
+	font-size: 1.1em;
+	width: 92%;
+	margin: 0 auto;
+	border-top: 3px RoyalBlue solid;
+}
+
+th {
+	width: 200px;
+	background-color: #f2f2f2;
+}
+
+td {
+	
+	text-align: center;
+	background-color: #e1e1e1;
+}
+
+.arrow-img {
+	height: 20px;
+	margin-left: 5px;
+}
+
+.company_img {
+	height: 50px;
+}

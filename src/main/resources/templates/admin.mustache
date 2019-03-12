@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+    <title>Кабинет админа</title>
+</head>
+
+<body>
+
+    <header>
+        <img class="logo" src="/static/img/lcn.jpg" alt="LCN">
+    </header>
+
+    <nav>
+        <a href="/market/stock/all"><div class="nav-button">Акции</div></a>
+        <a href="/market/clients/all"><div class="nav-button">Клиенты</div></a>
+        <a href="/market/holdings/all"><div class="nav-button">Владения акциями</div></a>
+        <a href="help/help.html"><div class="nav-button">Помощь</div></a>
+    </nav>
+
+    <div class="main">
+
+        <div class="title">Кабинет админа:</div>
+
+        <form id="client-form">
+            <div>Добавить клиента:</div>
+            <hr>
+            <label>Имя клиента: <input id="client-name" maxlength="50" type="text"></label>
+            <br>
+            <label>Адрес: <input id="client-address" maxlength="50" type="text"></label>
+            <br>
+            <label>Город: <input id="client-city" maxlength="50" type="text"></label>
+            <br>
+            <label>Номер телефона: <input id="client-phone" maxlength="12" type="text" placeholder="+000000000000"></label>
+            <br>
+            <label>Дата рождения: <input id="client-birthdate" type="date"></label>
+            <br>
+            <label>
+                Уровень риска:
+                <select id="client-risk">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </select>
+            </label>
+            <br>
+            <label>URL Фоторграфии: <input id="client-photo-url" type="text"></label>
+            <br>
+            <button>Добавить</button>
+        </form>
+
+        <form id="stock-form">
+            <div>Добавить акцию: </div>
+            <hr>
+            <label>Название компании: <input id="company-name" maxlength="50" type="text"></label>
+            <br>
+            <label>Текущая Цена: <input id="current-price" type="number" maxlength="10" step="0.01"></label>
+            <br>
+            <label>URL Фоторграфии: <input id="company-photo-url" type="text"></label>
+            <br>
+            <label>Цена растет: <input id="price-growing" type="checkbox"></label>
+            <br>
+            <label>
+                Уровень риска:
+                <select id="stock-risk">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </select>
+            </label>
+            <br>
+            <label>
+                Рейтинг:
+                <select id="stock-rating">
+                    <<option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </select>
+            </label>
+            <br>
+            <button>Добавить</button>
+        </form>
+
+        <form id="holding-form">
+            <div>Присвоить акции клиенту:</div>
+            <hr>
+            <label>
+                Клиент:
+                <select id="client-select">
+                    {{#clients}}
+                    <option value="{{id}}">{{fullName}}</option>
+                    {{/clients}}
+                </select>
+            </label>
+            <br>
+            <label>
+                Ацкии:
+                <select id="stock-select">
+                    {{#stocks}}
+                    <option value="{{id}}">{{companyName}}</option>
+                    {{/stocks}}
+                </select>
+            </label>
+            <br>
+            <label>Процент акций: <input id="percent" maxlength="3" type="number"></label>
+            <br>
+            <label>Дата покупки: <input id="purchase-date" type="date"></label>
+            <br>
+            <button>Добавить</button>
+        </form>
+
+    </div>
+
+    <script>
+        const clientFields = [
+            'client-name', 'client-address','client-city', 'client-phone', 'client-birthdate', 'client-risk', 'client-photo-url'
+        ];
+
+        const stockFields = [
+            'company-name', 'current-price', 'company-photo-url', 'price-growing', 'stock-risk', 'stock-rating'
+        ];
+
+        const holdingFields = ['client-select', 'stock-select', 'percent', 'purchase-date'];
+
+        const containsValue = fields => {
+            let result = true;
+            fields.forEach(field => {
+                if(document.getElementById(field).value == '')
+                    result = false
+            });
+            return result
+        };
+
+        document.getElementById('client-form').addEventListener('submit', event => {
+            event.preventDefault();
+
+            if (containsValue(clientFields)) {
+                let body = String();
+                clientFields.forEach(field => {
+                    body = body +  document.getElementById(field).value + '|'
+                });
+
+                fetch('http://localhost:8080/market/admin-page/new-client', {
+                    method: 'POST',
+                    body: body
+                }).then(res => {
+                    if (res.status === 200)
+                         alert('Клиент успешно добавлен!');
+                    else alert('Ошибка! Не удалось добавить клиента...')
+                })
+            }
+
+            else alert('Заполните все поля!');
+        });
+
+        document.getElementById('stock-form').addEventListener('submit', event => {
+            event.preventDefault();
+
+            if (containsValue(stockFields)) {
+                let body = String();
+                stockFields.forEach(field => {
+                    
+                    if (field === 'price-growing')
+                        body = body +  document.getElementById(field).checked + '|';
+
+                    else body = body +  document.getElementById(field).value + '|'
+                });
+
+                fetch('http://localhost:8080/market/admin-page/new-stock', {
+                    method: 'POST',
+                    body: body
+                }).then(res => {
+                    if (res.status === 200)
+                         alert('Акция успешно добавлена!');
+                    else alert('Ошибка! Не удалось добавить акцию...')
+                })
+            }
+
+            else alert('Заполните все поля!');
+        });
+
+        document.getElementById('holding-form').addEventListener('submit', event => {
+            event.preventDefault();
+
+            if (containsValue(holdingFields)) {
+                let body = String();
+                holdingFields.forEach(field => {
+
+                    if (field === 'percent') {
+                        let value =  parseInt(document.getElementById(field).value, 10)
+                        if (value < 0) value = 1;
+                        if (value > 100) value = 100;
+
+                        body = body + `${value}|`;
+                        document.getElementById('percent').value = value
+                    }
+
+                    else body = body + document.getElementById(field).value + '|'
+                });
+
+                fetch('http://localhost:8080/market/admin-page/new-holding', {
+                    method: 'POST',
+                    body: body
+                }).then(res => {
+                    if (res.status === 200)
+                         alert('Акция успешно присвоена клиенту добавлена!');
+                    else alert('Ошибка! Не удалось присвоить акцию клиенту...')
+                })
+            }
+
+            else alert('Заполните все поля!');
+        })
+
+
+    </script>
+
+</body>
+
+</html>
